@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Users\Entity;
+namespace App\Users\WriteModel;
 
 class User
 {

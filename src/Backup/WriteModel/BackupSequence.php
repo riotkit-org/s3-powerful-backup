@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Backup\Entity;
+namespace App\Backup\WriteModel;
 
 /**
  * Definition: Group of multiple BackupObjects acting together as SINGLE VERSION

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Backup\Entity;
+namespace App\Backup\WriteModel;
 
 class BackupObject
 {
