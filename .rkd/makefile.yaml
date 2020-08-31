@@ -1,0 +1,17 @@
+version: org.riotkit.rkd/yaml/v1
+imports: []
+tasks:
+    :dev:up:
+        description: Setup development environment requirements
+        steps: |
+            %RKD% :docker:up :symfony:dev-server:up
+
+    :docker:up:
+        become: root
+        description: Runs a dockerized environment
+        steps: |
+            docker-compose -p s3pb -f .devops/docker-compose.yml up -d
+
+    :symfony:dev-server:up:
+        description: Runs a development server
+        steps: symfony local:server:start --allow-http --no-tls
