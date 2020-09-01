@@ -1,5 +1,13 @@
-controllers:
-    resource: ../../src/Controller/
+frontend_controllers:
+    resource: ../../src/Infrastructure/Frontend/Controller/
+    type: annotation
+
+backup_controllers:
+    resource: ../../src/Infrastructure/Backup/Controller/
+    type: annotation
+
+user_controllers:
+    resource: ../../src/Infrastructure/User/Controller/
     type: annotation
 
 kernel:

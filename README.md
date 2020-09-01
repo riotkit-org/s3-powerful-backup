@@ -24,3 +24,14 @@ Developers
 
 Project is split into domains - `Backup`, `Users`, `Security`, `Storage`.
 Each domain is communicating to each other by emitting events via Event Bus.
+
+The project has `hexagonal architecture` - Domain, Application, Infrastructure.
+
+**Structure - examples:**
+
+```yaml
+src/Application # Command-bus handlers and commands
+src/Controller  # HTTP layer
+src/Domain/Users/View         # models used only for viewing (returned by queries), does not contain validations, just a DTO (already validated by write layer)
+src/Domain/Users/WriteModel   # models used to write to database (used by commands), contains domain-specific logic and validations
+```

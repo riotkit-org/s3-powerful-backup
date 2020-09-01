@@ -21,11 +21,18 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
 
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-    App\Controller\:
-        resource: '../src/Controller/'
+    App\Infrastructure\Backup\Controller\:
+        resource: '../src/Infrastructure/Backup/Controller/'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Infrastructure\Frontend\Controller\:
+        resource: '../src/Infrastructure/Frontend/Controller/'
+        tags: ['controller.service_arguments']
+
+    App\Infrastructure\User\Controller\:
+        resource: '../src/Infrastructure/User/Controller/'
+        tags: ['controller.service_arguments']
+
+    App\Application\Handler\CreateUserHandler:
+        tags:
+            - { name: tactician.handler, typehints: true }
