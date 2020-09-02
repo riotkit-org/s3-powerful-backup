@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Application\Handler;
+namespace App\Application\Command\Handler;
 
-use App\Application\CreateUserCommand;
+use App\Application\Command\CreateUserCommand;
 
 class CreateUserHandler
 {

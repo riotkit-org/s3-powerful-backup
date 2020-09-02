@@ -33,6 +33,12 @@ services:
         resource: '../src/Infrastructure/User/Controller/'
         tags: ['controller.service_arguments']
 
-    App\Application\Handler\CreateUserHandler:
+    App\Application\Command\Handler\:
+        resource: '../src/Application/Command/Handler/'
+        tags:
+            - { name: tactician.handler, typehints: true }
+
+    App\Application\Query\Handler\:
+        resource: '../src/Application/Query/Handler/'
         tags:
             - { name: tactician.handler, typehints: true }

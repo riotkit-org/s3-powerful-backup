@@ -1,6 +1,8 @@
 S3-PowerfulBackup
 =================
 
+WARNING: THIS IS A UNRELEASED DEVELOPMENT VERSION, PLEASE OBSERVE RELEASES PAGE FOR A RELEASE-CANDIDATE AND STABLE RELEASES
+
 Turns your S3 storage into a professional backup server with access control, read-write policies and files rotation.
 
 **Features:**

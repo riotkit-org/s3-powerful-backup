@@ -2,11 +2,11 @@
 
 namespace App\Infrastructure\User\Form;
 
-use App\Application\CreateUserCommand;
+use App\Application\Command\CreateUserCommand;
 use Linio\Component\Input\InputHandler;
 
 /**
- * @see CreateUserCommand
+ * @see \App\Application\Command\CreateUserCommand
  */
 class UserCreationForm extends InputHandler
 {
