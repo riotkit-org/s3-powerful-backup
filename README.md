@@ -32,8 +32,11 @@ The project has `hexagonal architecture` - Domain, Application, Infrastructure.
 **Structure - examples:**
 
 ```yaml
-src/Application # Command-bus handlers and commands
-src/Controller  # HTTP layer
+# Command-bus handlers and commands. 
+# Query - returns read-only results. Command - writes data, returns nothing, throws exception on error. Exception can contain validator results.
+src/Application 
+
+src/Infrastructure/Users/Controller # HTTP layer
 src/Domain/Users/View         # models used only for viewing (returned by queries), does not contain validations, just a DTO (already validated by write layer)
 src/Domain/Users/WriteModel   # models used to write to database (used by commands), contains domain-specific logic and validations
 ```
