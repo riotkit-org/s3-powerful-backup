@@ -15,9 +15,14 @@ class UserQueryByEmailHandler
         $this->repository = $repository;
     }
 
-    public function __invoke(UserQueryByEmail $query)
+    public function __invoke(UserQueryByEmail $query): ?UserView
     {
         $rwModel = $this->repository->findUserByEmailAddress($query->email);
+
+        if (!$rwModel) {
+            return null;
+        }
+
         return new UserView($rwModel->getEmail());
     }
 }

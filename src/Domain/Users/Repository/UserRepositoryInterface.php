@@ -6,5 +6,5 @@ use App\Domain\Users\WriteModel\User;
 
 interface UserRepositoryInterface
 {
-    public function findUserByEmailAddress(string $email): User;
+    public function findUserByEmailAddress(string $email): ?User;
 }

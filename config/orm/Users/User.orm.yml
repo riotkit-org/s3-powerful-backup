@@ -1,0 +1,13 @@
+App\Domain\Users\WriteModel\User:
+    type: entity
+    table: users
+
+    id:
+        id:
+            type: guid
+            generator:
+                strategy: UUID
+
+    fields:
+        email:
+            type: string

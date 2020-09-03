@@ -9,4 +9,15 @@ class CreateUserCommand
     public string $organization;
     public string $about;
     public array  $roles;
+
+    public function toArray(): array
+    {
+        return [
+            'email'        => $this->email,
+            'password'     => $this->password,
+            'organization' => $this->organization,
+            'about'        => $this->about,
+            'roles'        => $this->roles
+        ];
+    }
 }

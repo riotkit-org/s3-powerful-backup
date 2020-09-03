@@ -2,19 +2,65 @@
 
 namespace App\Domain\Users\WriteModel;
 
+use App\Domain\Common\Exception\ValidationConstraintViolatedException;
+use App\Domain\Common\Exception\ValidationException;
+use App\Domain\Users\ValueObject\Email;
+use App\Domain\Users\ValueObject\Password;
+
 class User
 {
-    private string $email;
+    private string $id;
 
-    private string $password;
+    private Email $email;
 
-    private string $organization = '';
+    private Password $password;
 
-    private string $about = '';
+    private TextField $organization;
 
-    private array $roles = [];
+    private TextField $about;
 
-    public function getEmail(): string
+    private RolesCollection $roles;
+
+    /**
+     * @param array  $input
+     * @param string $passwordSalt
+     * @param int    $passwordIterations
+     *
+     * @return User
+     *
+     * @throws ValidationException
+     */
+    public static function fromArray(array $input, string $passwordSalt, int $passwordIterations): User
+    {
+        $user = new static();
+        $errors = [];
+
+        $setters = [
+            function () use ($user, $input) { $user->email        = Email::fromString($input['email']); },
+            function () use ($user, $input, $passwordSalt, $passwordIterations) {
+                $user->password = Password::fromString($input['password'], $passwordSalt, $passwordIterations);
+            },
+            function () use ($user, $input) { $user->organization = $input['organization']; },
+            function () use ($user, $input) { $user->about        = $input['about']; },
+            function () use ($user, $input) { $user->roles        = $input['roles']; },
+        ];
+
+        foreach ($setters as $setter) {
+            try {
+                $setter();
+            } catch (ValidationConstraintViolatedException $exception) {
+                $errors[] = $exception;
+            }
+        }
+
+        if ($errors) {
+            throw ValidationException::fromErrors($errors);
+        }
+
+        return $user;
+    }
+
+    public function getEmail(): Email
     {
         return $this->email;
     }

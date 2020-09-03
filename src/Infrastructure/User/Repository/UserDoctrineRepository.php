@@ -5,6 +5,7 @@ namespace App\Infrastructure\User\Repository;
 use App\Domain\Users\Repository\UserRepositoryInterface;
 use App\Domain\Users\WriteModel\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,12 +18,16 @@ class UserDoctrineRepository extends ServiceEntityRepository implements UserRepo
         parent::__construct($registry, User::class);
     }
 
-    public function findUserByEmailAddress(string $email): User
+    public function findUserByEmailAddress(string $email): ?User
     {
         $qb = $this->createQueryBuilder('user');
         $qb->where('user.email = :email');
         $qb->setParameter('email', $email);
 
-        return $qb->getQuery()->getSingleResult();
+        try {
+            return $qb->getQuery()->getSingleResult();
+        } catch (NoResultException $exception) {
+            return null;
+        }
     }
 }

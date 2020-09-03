@@ -12,7 +12,14 @@ doctrine:
         mappings:
             App\Domain\Backup\WriteModel:
                 is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/src/Domain/Backup/WriteModel'
+                type: yml
+                dir: '%kernel.project_dir%/config/orm/Backup'
                 prefix: 'App\Domain\Backup\WriteModel'
                 alias: Backup
+
+            App\Domain\Users\WriteModel:
+                is_bundle: false
+                type: yml
+                dir: '%kernel.project_dir%/config/orm/Users'
+                prefix: 'App\Domain\Users\WriteModel'
+                alias: Users
