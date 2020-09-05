@@ -3,10 +3,13 @@
 namespace App\Domain\Common\ValueObject;
 
 use App\Domain\Common\Exception\ValidationConstraintViolatedException;
+use App\Domain\Security\Errors;
 
 class TextField
 {
     protected string $value;
+    protected static string $field        = '';
+    protected static int $maxAllowedChars = 0;
 
     /**
      * @param string $value
@@ -17,12 +20,40 @@ class TextField
      */
     public static function fromString(string $value)
     {
-        // @todo: Validate string for non-utf8 characters
+        static::validateMaxAllowedChars($value);
+        static::validateUtf($value);
 
         $new = new static();
         $new->value = $value;
 
         return $new;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @throws ValidationConstraintViolatedException
+     */
+    private static function validateMaxAllowedChars(string $value)
+    {
+        if (static::$maxAllowedChars && strlen($value) > static::$maxAllowedChars) {
+            throw ValidationConstraintViolatedException::fromString(
+                static::$field,
+                Errors::ERR_MSG_TEXT_FIELD_TOO_LONG,
+                Errors::ERR_TEXT_FIELD_TOO_LONG
+            );
+        }
+    }
+
+    private static function validateUtf(string $value)
+    {
+        if (!mb_check_encoding($value, 'UTF-8')) {
+            throw ValidationConstraintViolatedException::fromString(
+                static::$field,
+                Errors::ERR_MSG_NON_UTF_CHARACTERS,
+                Errors::ERR_NON_UTF_CHARACTERS
+            );
+        }
     }
 
     public function getValue(): string

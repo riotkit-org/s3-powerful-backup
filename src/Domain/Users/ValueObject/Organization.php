@@ -6,4 +6,6 @@ use App\Domain\Common\ValueObject\TextField;
 
 class Organization extends TextField
 {
+    protected static string $field           = 'organization';
+    protected static int    $maxAllowedChars = 64;
 }
