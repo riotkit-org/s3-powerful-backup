@@ -5,8 +5,9 @@ namespace App\Infrastructure\Common\DependencyInjection;
 use App\Infrastructure\Common\Service\CommandBus;
 use App\Infrastructure\Common\Service\QueryBus;
 use JMS\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
-class ServiceContext
+class ApplicationContext
 {
     public SerializerInterface $serializer;
     public CommandBus          $commandBus;
@@ -17,5 +18,21 @@ class ServiceContext
         $this->serializer = $serializer;
         $this->commandBus = $cBus;
         $this->queryBus   = $qBus;
+    }
+
+    /**
+     * Executes a command basing on JSON input from Request
+     *
+     * @param Request $request
+     * @param string $commandClassName
+     *
+     * @return mixed
+     */
+    public function handleCommand(Request $request, string $commandClassName)
+    {
+        $command = $this->serializer->deserialize($request->getContent(), $commandClassName, 'json');
+        $this->commandBus->handle($command);
+
+        return $command;
     }
 }

@@ -5,7 +5,7 @@ namespace App\Infrastructure\User\Controller;
 use App\Application\Command\CreateUserCommand;
 use App\Application\Query\UserQueryByEmail;
 use App\Domain\Users\Exception\UserCreationException;
-use App\Infrastructure\Common\DependencyInjection\ServiceContext;
+use App\Infrastructure\Common\DependencyInjection\ApplicationContext;
 use App\Infrastructure\User\Response\UserCreatedResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,24 +20,23 @@ class ManageUserController
      * @Route("/user", name="user_create", methods={"POST"})
      *
      * @param Request        $request
-     * @param ServiceContext $ctx
-     *
-     * @throws UserCreationException
+     * @param ApplicationContext $ctx
      *
      * @return Response
+     * @throws UserCreationException
      */
-    public function createAction(Request $request, ServiceContext $ctx): Response
+    public function createAction(Request $request, ApplicationContext $ctx): Response
     {
         // @todo: Permissions checking
         // @todo: FOS Rest
 
         /**
+         * @throws UserCreationException
          * @var CreateUserCommand $command
          */
-        $command = $ctx->serializer->deserialize($request->getContent(), CreateUserCommand::class, 'json');
+        $command = $ctx->handleCommand($request, CreateUserCommand::class);
 
-        // throws UserCreationException
-        $ctx->commandBus->handle($command);
+        // @todo: EventBus -> UserWasCreatedEvent
 
         return new UserCreatedResponse(
             $ctx->queryBus->handle(new UserQueryByEmail($command->email))
