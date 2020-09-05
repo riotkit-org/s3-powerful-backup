@@ -1,0 +1,30 @@
+App\Domain\Users\WriteModel\User:
+    type: entity
+    table: users
+
+    id:
+        id:
+            type: guid
+            generator:
+                strategy: UUID
+
+    embedded:
+        email:
+            class: App\Domain\Users\ValueObject\Email
+            columnPrefix: false
+
+        password:
+            class: App\Domain\Users\ValueObject\Password
+            columnPrefix: false
+
+        organization:
+            class: App\Domain\Users\ValueObject\Organization
+            columnPrefix: false
+
+        about:
+            class: App\Domain\Users\ValueObject\About
+            columnPrefix: false
+
+        roles:
+            class: App\Domain\Users\Collection\RolesCollection
+            columnPrefix: false

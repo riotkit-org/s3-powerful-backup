@@ -3,6 +3,9 @@
 namespace App\Application\Command\Handler;
 
 use App\Application\Command\CreateUserCommand;
+use App\Domain\Common\Exception\ValidationConstraintViolatedException;
+use App\Domain\Common\Exception\ValidationException;
+use App\Domain\Users\Exception\UserCreationException;
 use App\Domain\Users\Repository\UserRepositoryInterface;
 use App\Domain\Users\WriteModel\User;
 
@@ -15,11 +18,21 @@ class CreateUserHandler
         $this->repository = $repository;
     }
 
+    /**
+     * @param CreateUserCommand $command
+     *
+     * @throws UserCreationException
+     * @throws ValidationException
+     */
     public function __invoke(CreateUserCommand $command)
     {
         $user = User::fromArray($command->toArray(), 'some-salt-@todo-change', 90000);
 
-        $this->repository->persist();
+        if ($this->repository->findUserByEmailAddress($user->getEmail()->getValue())) {
+            throw UserCreationException::causeUserAlreadyExists();
+        }
+
+        $this->repository->persist($user);
         $this->repository->flush();
 
         dump($command);

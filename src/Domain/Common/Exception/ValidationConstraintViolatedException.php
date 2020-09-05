@@ -2,11 +2,11 @@
 
 namespace App\Domain\Common\Exception;
 
-class ValidationConstraintViolatedException extends ApplicationException
+class ValidationConstraintViolatedException extends ApplicationException implements \JsonSerializable
 {
     private string $field;
 
-    public static function fromString(string $field, string $message, int $code = 400)
+    public static function fromString(string $field, string $message, int $code)
     {
         $new = new static();
         $new->message = $message;
@@ -14,5 +14,10 @@ class ValidationConstraintViolatedException extends ApplicationException
         $new->field   = $field;
 
         return $new;
+    }
+
+    public function jsonSerialize()
+    {
+        return ['field' => $this->field, 'message' => $this->message, 'code' => $this->code];
     }
 }

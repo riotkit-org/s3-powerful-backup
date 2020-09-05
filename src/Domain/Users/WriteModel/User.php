@@ -4,7 +4,10 @@ namespace App\Domain\Users\WriteModel;
 
 use App\Domain\Common\Exception\ValidationConstraintViolatedException;
 use App\Domain\Common\Exception\ValidationException;
+use App\Domain\Users\Collection\RolesCollection;
+use App\Domain\Users\ValueObject\About;
 use App\Domain\Users\ValueObject\Email;
+use App\Domain\Users\ValueObject\Organization;
 use App\Domain\Users\ValueObject\Password;
 
 class User
@@ -15,9 +18,9 @@ class User
 
     private Password $password;
 
-    private TextField $organization;
+    private Organization $organization;
 
-    private TextField $about;
+    private About $about;
 
     private RolesCollection $roles;
 
@@ -40,9 +43,9 @@ class User
             function () use ($user, $input, $passwordSalt, $passwordIterations) {
                 $user->password = Password::fromString($input['password'], $passwordSalt, $passwordIterations);
             },
-            function () use ($user, $input) { $user->organization = $input['organization']; },
-            function () use ($user, $input) { $user->about        = $input['about']; },
-            function () use ($user, $input) { $user->roles        = $input['roles']; },
+            function () use ($user, $input) { $user->organization = Organization::fromString($input['organization']); },
+            function () use ($user, $input) { $user->about        = About::fromString($input['about']); },
+            function () use ($user, $input) { $user->roles        = RolesCollection::fromArray($input['roles']); },
         ];
 
         foreach ($setters as $setter) {

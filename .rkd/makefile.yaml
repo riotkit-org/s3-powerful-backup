@@ -12,6 +12,12 @@ tasks:
         steps: |
             docker-compose -p s3pb -f .devops/docker-compose.yml up -d
 
+    :docker:cleanup:
+        become: root
+        description: Remove docker environment
+        steps: |
+            docker-compose -p s3pb -f .devops/docker-compose.yml down -v
+
     :symfony:dev-server:up:
         description: Runs a development server
         steps: symfony local:server:start --allow-http --no-tls
@@ -28,4 +34,4 @@ tasks:
                 -w /var/www/html \
                 -p 8009:8000 \
                 -u 1000:1000 php:8.0.0beta2-cli-alpine \
-                -c ".devops/symfony/bin/symfony serve"
+                -c "set -x; rm -rf var/cache .symfony .devops/symfony/cache .devops/symfony/php .devops/symfony/var; .devops/symfony/bin/symfony serve --allow-http --dir=\$(pwd)"

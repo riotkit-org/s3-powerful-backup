@@ -7,11 +7,18 @@ class ValidationException extends ApplicationException
     /**
      * @var ValidationConstraintViolatedException[]
      */
-    private array $constraintsViolated = [];
+    protected array $constraintsViolated = [];
 
-    public static function fromErrors(array $violations): ValidationException
+    /**
+     * @param array $violations
+     * @param string $message
+     * @param int|null $code
+     *
+     * @return ValidationException|static
+     */
+    public static function fromErrors(array $violations, string $message = 'Data model validation failed', ?int $code = null): ValidationException
     {
-        $new = new static('Data model validation failed');
+        $new = new static($message, $code);
         $new->constraintsViolated = $violations;
 
         return $new;

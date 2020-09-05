@@ -23,6 +23,6 @@ class UserQueryByEmailHandler
             return null;
         }
 
-        return new UserView($rwModel->getEmail());
+        return new UserView($rwModel->getEmail()->getValue());
     }
 }

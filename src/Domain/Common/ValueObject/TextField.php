@@ -1,21 +1,21 @@
 <?php declare(strict_types=1);
 
-namespace App\Domain\Users\ValueObject;
+namespace App\Domain\Common\ValueObject;
 
 use App\Domain\Common\Exception\ValidationConstraintViolatedException;
 
 class TextField
 {
-    private string $value;
+    protected string $value;
 
     /**
      * @param string $value
      *
-     * @return TextField
+     * @return static
      *
      * @throws ValidationConstraintViolatedException
      */
-    public static function fromString(string $value): TextField
+    public static function fromString(string $value)
     {
         // @todo: Validate string for non-utf8 characters
 

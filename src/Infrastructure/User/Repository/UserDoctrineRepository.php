@@ -21,7 +21,7 @@ class UserDoctrineRepository extends ServiceEntityRepository implements UserRepo
     public function findUserByEmailAddress(string $email): ?User
     {
         $qb = $this->createQueryBuilder('user');
-        $qb->where('user.email = :email');
+        $qb->where('user.email.value = :email');
         $qb->setParameter('email', $email);
 
         try {
@@ -29,5 +29,15 @@ class UserDoctrineRepository extends ServiceEntityRepository implements UserRepo
         } catch (NoResultException $exception) {
             return null;
         }
+    }
+
+    public function persist(User $user): void
+    {
+        $this->getEntityManager()->persist($user);
+    }
+
+    public function flush(): void
+    {
+        $this->getEntityManager()->flush();
     }
 }

@@ -1,0 +1,7 @@
+App\Domain\Users\ValueObject\Organization:
+    type: embeddable
+    fields:
+        value:
+            type: string
+            column: organization
+            nullable: false

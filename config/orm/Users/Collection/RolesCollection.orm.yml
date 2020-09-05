@@ -1,0 +1,7 @@
+App\Domain\Users\Collection\RolesCollection:
+    type: embeddable
+    fields:
+        roles:
+            type: json_array
+            column: roles
+            nullable: false

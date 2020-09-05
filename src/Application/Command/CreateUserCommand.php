@@ -6,9 +6,9 @@ class CreateUserCommand
 {
     public string $email;
     public string $password;
-    public string $organization;
-    public string $about;
-    public array  $roles;
+    public string $organization = '';
+    public string $about        = '';
+    public array  $roles        = [];
 
     public function toArray(): array
     {

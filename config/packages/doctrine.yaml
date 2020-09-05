@@ -13,13 +13,34 @@ doctrine:
             App\Domain\Backup\WriteModel:
                 is_bundle: false
                 type: yml
-                dir: '%kernel.project_dir%/config/orm/Backup'
+                dir: '%kernel.project_dir%/config/orm/Backup/WriteModel'
                 prefix: 'App\Domain\Backup\WriteModel'
                 alias: Backup
+
+            App\Domain\Backup\ValueObject:
+                is_bundle: false
+                type: yml
+                dir: '%kernel.project_dir%/config/orm/Backup/ValueObject'
+                prefix: 'App\Domain\Backup\ValueObject'
+                alias: BackupVO
 
             App\Domain\Users\WriteModel:
                 is_bundle: false
                 type: yml
-                dir: '%kernel.project_dir%/config/orm/Users'
+                dir: '%kernel.project_dir%/config/orm/Users/WriteModel'
                 prefix: 'App\Domain\Users\WriteModel'
                 alias: Users
+
+            App\Domain\Users\ValueObject:
+                is_bundle: false
+                type: yml
+                dir: '%kernel.project_dir%/config/orm/Users/ValueObject'
+                prefix: 'App\Domain\Users\ValueObject'
+                alias: UsersVO
+
+            App\Domain\Users\Collection:
+                is_bundle: false
+                type: yml
+                dir: '%kernel.project_dir%/config/orm/Users/Collection'
+                prefix: 'App\Domain\Users\Collection'
+                alias: UsersCOLLECTION

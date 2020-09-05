@@ -10,6 +10,7 @@ use App\Infrastructure\Common\Service\CommandBus;
 use App\Infrastructure\User\Response\UserCreatedResponse;
 use App\Infrastructure\User\Response\UserCreationErrorResponse;
 use JMS\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class ManageUserController
 {
     /**
+     * //@IsGranted("ROLE_USERS_CREATE")
+     *
      * @Route("/user", name="user_create", methods={"POST", "PUT"})
      *
      * @param Request $request
@@ -24,24 +27,22 @@ class ManageUserController
      * @param CommandBus $cBus
      * @param QueryBus   $qBus
      *
+     * @throws UserCreationException
+     *
      * @return Response
      */
     public function createAction(Request $request, SerializerInterface $serializer, CommandBus $cBus, QueryBus $qBus): Response
     {
         // @todo: /api/v1 prefix
         // @todo: Permissions checking
+        // @todo: FOS Rest
 
         /**
          * @var CreateUserCommand $command
          */
         $command = $serializer->deserialize($request->getContent(), CreateUserCommand::class, 'json');
+        $cBus->handle($command);
 
-        try {
-            $cBus->handle($command);
-
-        } catch (UserCreationException $exception) {
-            return new UserCreationErrorResponse($exception);
-        }
 
         return new UserCreatedResponse(
             $qBus->handle(new UserQueryByEmail($command->email))

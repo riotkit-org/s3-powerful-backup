@@ -1,0 +1,5 @@
+App\Application\Command\CreateUserCommand:
+    exclusion_policy: NONE
+    properties:
+        roles:
+            type: array

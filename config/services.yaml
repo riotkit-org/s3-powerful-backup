@@ -16,10 +16,16 @@ services:
     App\:
         resource: '../src/'
         exclude:
+            # @todo: Exclude classes that should not be in container
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+            - '../src/Domain/{Storage,Users,Security,Backup,Common}/WriteModel/'
+            - '../src/Domain/{Storage,Users,Security,Backup,Common}/Collection'
+
+    App\Infrastructure\Event\Subscriber\DomainValidationErrorSubscriber:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
 
     App\Infrastructure\Backup\Controller\:
         resource: '../src/Infrastructure/Backup/Controller/'
