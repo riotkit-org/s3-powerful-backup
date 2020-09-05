@@ -3,10 +3,12 @@ frontend_controllers:
     type: annotation
 
 backup_controllers:
+    prefix: "/api/v1"
     resource: ../../src/Infrastructure/Backup/Controller/
     type: annotation
 
 user_controllers:
+    prefix: "/api/v1"
     resource: ../../src/Infrastructure/User/Controller/
     type: annotation
 
