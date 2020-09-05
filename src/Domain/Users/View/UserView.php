@@ -2,12 +2,19 @@
 
 namespace App\Domain\Users\View;
 
-class UserView
+class UserView implements \JsonSerializable
 {
     public string $email;
 
     public function __construct(string $email)
     {
         return $email;
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'email' => $this->email
+        ];
     }
 }
