@@ -17,7 +17,7 @@ class ManageUserController
     /**
      * //@IsGranted("ROLE_USERS_CREATE")
      *
-     * @Route("/user", name="user_create", methods={"POST", "PUT"})
+     * @Route("/user", name="user_create", methods={"POST"})
      *
      * @param Request        $request
      * @param ServiceContext $ctx
