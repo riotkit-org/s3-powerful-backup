@@ -12,6 +12,11 @@ Turns your S3 storage into a professional backup server with access control, rea
 - Direct access via S3 interface to buckets created by S3-PowerfulBackup
 - High security by using policies and UUIDs
 
+**Requirements:**
+- Access to local or remote S3 instance with administrative rights (Preferred: Min.io)
+- PHP 7.4+
+- PostgreSQL 12+
+
 Store mechanism
 ---------------
 

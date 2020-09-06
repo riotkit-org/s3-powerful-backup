@@ -12,11 +12,12 @@ class ValidationException extends ApplicationException
     /**
      * @param array $violations
      * @param string $message
-     * @param int|null $code
+     * @param int $code
      *
      * @return ValidationException|static
      */
-    public static function fromErrors(array $violations, string $message = 'Data model validation failed', ?int $code = null): ValidationException
+    public static function fromErrors(array $violations, string $message = 'Data model validation failed',
+                                      int $code = 0): ValidationException
     {
         $new = new static($message, $code);
         $new->constraintsViolated = $violations;

@@ -3,6 +3,7 @@
 namespace App\Domain\Users\ValueObject;
 
 use App\Domain\Common\Exception\ValidationConstraintViolatedException;
+use App\Domain\Security\Errors;
 
 class Email
 {
@@ -17,7 +18,11 @@ class Email
     public static function fromString(string $email): Email
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw ValidationConstraintViolatedException::fromString('email', 'Invalid format');
+            throw ValidationConstraintViolatedException::fromString(
+                'email',
+                Errors::ERR_MSG_USER_MAIL_FORMAT_INVALID,
+                Errors::ERR_USER_MAIL_FORMAT_INVALID
+            );
         }
 
         $new = new static();

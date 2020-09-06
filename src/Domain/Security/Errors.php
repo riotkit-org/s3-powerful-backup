@@ -15,4 +15,16 @@ final class Errors
 
     public const ERR_NON_UTF_CHARACTERS        = 40004;
     public const ERR_MSG_NON_UTF_CHARACTERS    = 'Field should contain only UTF-8 encoded characters';
+
+    public const ERR_USER_MAIL_FORMAT_INVALID     = 40005;
+    public const ERR_MSG_USER_MAIL_FORMAT_INVALID = 'Invalid format';
+
+    public const ERR_USER_PASSWORD_TOO_SHORT     = 40006;
+    public const ERR_MSG_USER_PASSWORD_TOO_SHORT = 'Password is too short';
+
+    public const ERR_USER_PASSWORD_TOO_LONG      = 40007;
+    public const ERR_MSG_USER_PASSWORD_TOO_LONG  = 'Password is too long';
+
+    public const ERR_USER_PASSWORD_TOO_SIMPLE          = 40008;
+    public const ERR_MSG_ERR_USER_PASSWORD_TOO_SIMPLE  = 'Password should contain at least one special character';
 }

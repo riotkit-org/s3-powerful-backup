@@ -2,9 +2,10 @@
 
 namespace App\Domain\Users\Repository;
 
-use App\Domain\Users\WriteModel\User;
+use App\Domain\Users\View\UserView;
 
 interface UserRepositoryInterface
 {
-    public function findUserByEmailAddress(string $email): ?User;
+    public function findUserByEmailAddress(string $email): ?UserView;
+    public function findUserByCredentials(string $email, string $password): ?UserView;
 }

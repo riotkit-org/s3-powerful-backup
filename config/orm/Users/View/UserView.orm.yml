@@ -1,0 +1,26 @@
+App\Domain\Users\View\UserView:
+    type: entity
+    table: users
+    readOnly: true
+
+    id:
+        id:
+            type: guid
+            generator:
+                strategy: UUID
+
+    fields:
+        email:
+            type: string
+
+        password:
+            type: string
+
+        organization:
+            type: string
+
+        about:
+            type: string
+
+        roles:
+            type: json_array

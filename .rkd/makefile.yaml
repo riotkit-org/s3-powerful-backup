@@ -35,3 +35,8 @@ tasks:
                 -p 8009:8000 \
                 -u 1000:1000 php:8.0.0beta2-cli-alpine \
                 -c "set -x; rm -rf var/cache .symfony .devops/symfony/cache .devops/symfony/php .devops/symfony/var; .devops/symfony/bin/symfony serve --allow-http --dir=\$(pwd)"
+
+    :psql:
+        description: Get into PostgreSQL shell
+        steps: |
+            psql -h 127.0.0.1 -U postgres postgres

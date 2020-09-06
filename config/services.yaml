@@ -4,6 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    env(PASSWD_SALT): 'change-me'
+    env(PASSWD_ITERATIONS): '90000'
 
 services:
     # default configuration for services in *this* file
@@ -29,7 +31,7 @@ services:
 
     App\Infrastructure\Backup\Controller\:
         resource: '../src/Infrastructure/Backup/Controller/'
-        tags: ['controller.service_arguments']
+        tags: [ 'controller.service_arguments' ]
 
     App\Infrastructure\Frontend\Controller\:
         resource: '../src/Infrastructure/Frontend/Controller/'
@@ -38,6 +40,10 @@ services:
     App\Infrastructure\User\Controller\:
         resource: '../src/Infrastructure/User/Controller/'
         tags: ['controller.service_arguments']
+
+    App\Infrastructure\Security\Controller\:
+        resource: '../src/Infrastructure/Security/Controller/'
+        tags: [ 'controller.service_arguments' ]
 
     App\Application\Command\Handler\:
         resource: '../src/Application/Command/Handler/'
@@ -48,3 +54,11 @@ services:
         resource: '../src/Application/Query/Handler/'
         tags:
             - { name: tactician.handler, typehints: true }
+
+    #
+    # Configurations (from environment variables)
+    #
+    App\Domain\Users\Configuration\PasswordHashingConfiguration:
+        arguments:
+            $salt: '%env(PASSWD_SALT)%'
+            $iterations: '%env(int:PASSWD_ITERATIONS)%'

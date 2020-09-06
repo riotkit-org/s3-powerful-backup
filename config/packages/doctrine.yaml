@@ -38,6 +38,13 @@ doctrine:
                 prefix: 'App\Domain\Users\ValueObject'
                 alias: UsersVO
 
+            App\Domain\Users\View:
+                is_bundle: false
+                type: yml
+                dir: '%kernel.project_dir%/config/orm/Users/View'
+                prefix: 'App\Domain\Users\View'
+                alias: UsersViews
+
             App\Domain\Users\Collection:
                 is_bundle: false
                 type: yml

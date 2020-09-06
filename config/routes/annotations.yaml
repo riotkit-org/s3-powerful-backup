@@ -12,6 +12,11 @@ user_controllers:
     resource: ../../src/Infrastructure/User/Controller/
     type: annotation
 
+security_controllers:
+    prefix: "/auth"
+    resource: ../../src/Infrastructure/Security/Controller/
+    type: annotation
+
 kernel:
     resource: ../../src/Kernel.php
     type: annotation
