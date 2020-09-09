@@ -6,6 +6,7 @@
 parameters:
     env(PASSWD_ALGORITHM): 'sha256'
     env(PASSWD_ITERATIONS): '90000'
+    env(JWT_LIFETIME): '+1 hour'
 
 services:
     # default configuration for services in *this* file
@@ -58,3 +59,11 @@ services:
         arguments:
             $algorithm: '%env(PASSWD_ALGORITHM)%'
             $iterations: '%env(int:PASSWD_ITERATIONS)%'
+
+    App\Domain\Security\Configuration\ApplicationInfo:
+        arguments:
+            $environmentType: '%kernel.environment%'
+
+    App\Domain\Security\Configuration\JWTConfiguration:
+        arguments:
+            $lifetime: '%env(JWT_LIFETIME)%'
