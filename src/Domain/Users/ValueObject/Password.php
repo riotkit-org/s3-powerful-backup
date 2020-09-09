@@ -12,13 +12,14 @@ class Password
 
     /**
      * @param string                       $value
+     * @param string                       $salt
      * @param PasswordHashingConfiguration $configuration
      *
      * @return Password
      *
      * @throws ValidationConstraintViolatedException
      */
-    public static function fromString(string $value, PasswordHashingConfiguration $configuration): Password
+    public static function fromString(string $value, string $salt, PasswordHashingConfiguration $configuration): Password
     {
         if (strlen($value) < 8) {
             throw ValidationConstraintViolatedException::fromString(
@@ -44,8 +45,24 @@ class Password
             );
         }
 
+        if (trim($value) !== $value) {
+            throw ValidationConstraintViolatedException::fromString(
+                'password',
+                Errors::ERR_MSG_USER_PASSWORD_WHITESPACES,
+                Errors::ERR_USER_PASSWORD_WHITESPACES
+            );
+        }
+
         $new = new static();
-        $new->value = hash_pbkdf2('sha256', $value, $configuration->salt, $configuration->iterations);
+        $salted = $salt ? $value . '{' . $salt . '}' : $value;
+
+        $digest = hash($configuration->algorithm, $salted, true);
+
+        for ($i = 1; $i < $configuration->iterations; ++$i) {
+            $digest = hash($configuration->algorithm, $digest.$salted, true);
+        }
+
+        $new->value = bin2hex($digest);
 
         return $new;
     }

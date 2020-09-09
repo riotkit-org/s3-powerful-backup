@@ -4,7 +4,6 @@ namespace App\Infrastructure\User\Repository;
 
 use App\Domain\Users\Configuration\PasswordHashingConfiguration;
 use App\Domain\Users\Repository\UserRepositoryInterface;
-use App\Domain\Users\ValueObject\Password;
 use App\Domain\Users\View\UserView;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NoResultException;
@@ -40,18 +39,16 @@ class UserDoctrineRepository extends ServiceEntityRepository implements UserRepo
 
     public function findUserByCredentials(string $email, string $password): ?UserView
     {
-        $qb = $this->createQueryBuilder('user');
-        $qb->where('user.email = :email AND user.password = :password');
-        $qb->setParameters([
-            'email'    => $email,
-            'password' => Password::fromString($password, $this->hashingConfiguration)->getValue()
-        ]);
+        $user = $this->findUserByEmailAddress($email);
 
-        try {
-            return $qb->getQuery()->getSingleResult();
-
-        } catch (NoResultException $exception) {
+        if (!$user) {
             return null;
         }
+
+        if (!$user->isPasswordMatching($password, $this->hashingConfiguration)) {
+            return null;
+        }
+
+        return $user;
     }
 }

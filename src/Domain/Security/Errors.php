@@ -27,4 +27,10 @@ final class Errors
 
     public const ERR_USER_PASSWORD_TOO_SIMPLE          = 40008;
     public const ERR_MSG_ERR_USER_PASSWORD_TOO_SIMPLE  = 'Password should contain at least one special character';
+
+    public const ERR_USER_PASSWORD_WHITESPACES         = 40009;
+    public const ERR_MSG_USER_PASSWORD_WHITESPACES     = 'Password cannot begin or end with a blank character';
+
+    public const ERR_USER_ROLE_INVALID                 = 40010;
+    public const ERR_MSG_USER_ROLE_INVALID             = 'Invalid role selected';
 }

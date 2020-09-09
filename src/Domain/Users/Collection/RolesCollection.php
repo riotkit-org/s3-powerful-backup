@@ -3,6 +3,7 @@
 namespace App\Domain\Users\Collection;
 
 use App\Domain\Common\Exception\ValidationConstraintViolatedException;
+use App\Domain\Security\Errors;
 use App\Domain\Security\Roles;
 
 class RolesCollection implements \JsonSerializable
@@ -25,7 +26,11 @@ class RolesCollection implements \JsonSerializable
 
         foreach ($roles as $role) {
             if (!\in_array($role, $availableRoles, true)) {
-                throw ValidationConstraintViolatedException::fromString($fieldName, 'Invalid role "' . $role . '"');
+                throw ValidationConstraintViolatedException::fromString(
+                    $fieldName,
+                    Errors::ERR_MSG_USER_ROLE_INVALID,
+                    Errors::ERR_USER_ROLE_INVALID
+                );
             }
         }
 

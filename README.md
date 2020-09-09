@@ -26,6 +26,29 @@ Store mechanism
 4. The S3-PowerfulBackup backend retrieves internal API calls from Background processing node to finalize transaction, set metadata, full filesize, mimetyp fields
 5. Backup retrieves a ready status
 
+Setup
+-----
+
+```bash
+
+# generate required keys for JWT authorization
+mkdir -p config/jwt
+openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096
+openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout
+
+```
+
+FAQ
+---
+
+1. Not working authorization behind Apache 2
+
+Apache server will strip any Authorization header not in a valid HTTP BASIC AUTH format. Use following configuration to avoid this issue.
+
+```
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+```
+
 Developers
 ==========
 

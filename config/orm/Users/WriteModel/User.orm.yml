@@ -28,3 +28,8 @@ App\Domain\Users\WriteModel\User:
         roles:
             class: App\Domain\Users\Collection\RolesCollection
             columnPrefix: false
+
+    fields:
+        salt:
+            type: string
+            length: 32

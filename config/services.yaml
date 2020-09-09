@@ -4,7 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    env(PASSWD_SALT): 'change-me'
+    env(PASSWD_ALGORITHM): 'sha256'
     env(PASSWD_ITERATIONS): '90000'
 
 services:
@@ -25,7 +25,7 @@ services:
             - '../src/Domain/{Storage,Users,Security,Backup,Common}/WriteModel/'
             - '../src/Domain/{Storage,Users,Security,Backup,Common}/Collection'
 
-    App\Infrastructure\Event\Subscriber\DomainValidationErrorSubscriber:
+    App\Infrastructure\Common\Event\Subscriber\DomainValidationErrorSubscriber:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
@@ -40,10 +40,6 @@ services:
     App\Infrastructure\User\Controller\:
         resource: '../src/Infrastructure/User/Controller/'
         tags: ['controller.service_arguments']
-
-    App\Infrastructure\Security\Controller\:
-        resource: '../src/Infrastructure/Security/Controller/'
-        tags: [ 'controller.service_arguments' ]
 
     App\Application\Command\Handler\:
         resource: '../src/Application/Command/Handler/'
@@ -60,5 +56,5 @@ services:
     #
     App\Domain\Users\Configuration\PasswordHashingConfiguration:
         arguments:
-            $salt: '%env(PASSWD_SALT)%'
+            $algorithm: '%env(PASSWD_ALGORITHM)%'
             $iterations: '%env(int:PASSWD_ITERATIONS)%'

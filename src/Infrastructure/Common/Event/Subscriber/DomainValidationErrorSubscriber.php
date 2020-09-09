@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Infrastructure\Event\Subscriber;
+namespace App\Infrastructure\Common\Event\Subscriber;
 
 use App\Domain\Common\Exception\ValidationException;
 use App\Infrastructure\Common\Response\ValidationErrorResponse;

@@ -24,3 +24,6 @@ App\Domain\Users\View\UserView:
 
         roles:
             type: json_array
+
+        salt:
+            type: string

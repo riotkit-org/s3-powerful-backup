@@ -15,11 +15,17 @@ use App\Domain\Users\ValueObject\Password;
 class User implements WriteModelInterface
 {
     private string $id;
+    private string $salt;
     private Email $email;
     private Password $password;
     private Organization $organization;
     private About $about;
     private RolesCollection $roles;
+
+    public function __construct()
+    {
+        $this->salt = base64_encode(random_bytes(32));
+    }
 
     /**
      * @param array                        $input
@@ -37,7 +43,7 @@ class User implements WriteModelInterface
         $setters = [
             function () use ($user, $input) { $user->email        = Email::fromString($input['email']); },
             function () use ($user, $input, $hashingConfiguration) {
-                $user->password = Password::fromString($input['password'], $hashingConfiguration);
+                $user->password = Password::fromString($input['password'], $user->salt, $hashingConfiguration);
             },
             function () use ($user, $input) { $user->organization = Organization::fromString($input['organization']); },
             function () use ($user, $input) { $user->about        = About::fromString($input['about']); },

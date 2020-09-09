@@ -3,6 +3,8 @@
 namespace App\Domain\Users\View;
 
 use App\Domain\Common\View\ViewModelInterface;
+use App\Domain\Users\Configuration\PasswordHashingConfiguration;
+use App\Domain\Users\ValueObject\Password;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserView implements \JsonSerializable, UserInterface, ViewModelInterface
@@ -13,6 +15,7 @@ class UserView implements \JsonSerializable, UserInterface, ViewModelInterface
     public string $organization;
     public string $about;
     public array  $roles;
+    public string $salt;
 
     public function __construct(string $email)
     {
@@ -26,16 +29,22 @@ class UserView implements \JsonSerializable, UserInterface, ViewModelInterface
         ];
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
-    public function getPassword()
+    public function getPassword(): string
     {
+        return $this->password;
     }
 
     public function getSalt()
     {
+        return $this->salt;
     }
 
     public function getUsername()
@@ -45,5 +54,16 @@ class UserView implements \JsonSerializable, UserInterface, ViewModelInterface
 
     public function eraseCredentials()
     {
+        $this->password = '';
+    }
+
+    public function isPasswordMatching(string $compareTo, PasswordHashingConfiguration $hashingConfiguration)
+    {
+        return $this->password === Password::fromString($compareTo, $this->salt, $hashingConfiguration)->getValue();
+    }
+
+    public function isEmailEqualTo(string $value)
+    {
+        return $this->email === $value;
     }
 }

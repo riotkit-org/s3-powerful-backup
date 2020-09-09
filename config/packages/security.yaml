@@ -1,24 +1,39 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Domain\Users\View\UserView:
+            algorithm: sha256
+            hash_algorithm: sha256
+            encode_as_base64: false
+            key_length: 64
+            iterations: "%env(PASSWD_ITERATIONS)%"
+
     providers:
-        users_in_memory: { memory: null }
+        users:
+            entity:
+                class: 'App\Domain\Users\View\UserView'
+                property: 'email'
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+
+        json_login:
+            pattern: ^/api/v1/login
+            stateless: true
             anonymous: true
-            lazy: true
-            provider: users_in_memory
+            json_login:
+                check_path: /api/v1/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
+# @todo debug: Enable this for authorization
+#        api:
+#            pattern: ^/api/v1
+#            stateless: true
+#            guard:
+#                authenticators:
+#                    - lexik_jwt_authentication.jwt_token_authenticator
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/v1/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/v1,       roles: IS_AUTHENTICATED_FULLY }
