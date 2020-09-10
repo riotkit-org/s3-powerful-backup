@@ -30,7 +30,10 @@ class UserDoctrineRepository extends ServiceEntityRepository implements UserRepo
         $qb->setParameter('email', $email);
 
         try {
-            return $qb->getQuery()->getSingleResult();
+            $result = $qb->getQuery()->getSingleResult();
+            $this->_em->refresh($result);
+
+            return $result;
 
         } catch (NoResultException $exception) {
             return null;

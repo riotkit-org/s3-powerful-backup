@@ -6,7 +6,7 @@ use App\Application\Command\CreateUserCommand;
 use App\Application\Query\UserQueryByEmail;
 use App\Domain\Users\Exception\UserCreationException;
 use App\Infrastructure\Common\DependencyInjection\ApplicationContext;
-use App\Infrastructure\User\Response\UserCreatedResponse;
+use App\Infrastructure\User\Response\UserAlteredResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ManageUserController
 {
     /**
-     * //@IsGranted("ROLE_USERS_CREATE")
+     * //@IsGranted("ACTION_USER_ASSIGN_ROLES")
      *
      * @Route("/user", name="user_create", methods={"POST"})
      *
@@ -38,8 +38,6 @@ class ManageUserController
 
         // @todo: EventBus -> UserWasCreatedEvent
 
-        return new UserCreatedResponse(
-            $ctx->queryBus->handle(new UserQueryByEmail($command->email))
-        );
+        return UserAlteredResponse::asResultFromCreation($ctx->queryBus->handle(new UserQueryByEmail($command->email)));
     }
 }

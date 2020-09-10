@@ -2,12 +2,13 @@
 
 namespace App\Domain\Users\View;
 
+use App\Domain\Common\View\IdAwareViewInterface;
 use App\Domain\Common\View\ViewModelInterface;
 use App\Domain\Users\Configuration\PasswordHashingConfiguration;
 use App\Domain\Users\ValueObject\Password;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserView implements \JsonSerializable, UserInterface, ViewModelInterface
+class UserView implements \JsonSerializable, UserInterface, ViewModelInterface, IdAwareViewInterface
 {
     public string $id;
     public string $email;
@@ -25,7 +26,11 @@ class UserView implements \JsonSerializable, UserInterface, ViewModelInterface
     public function jsonSerialize()
     {
         return [
-            'email' => $this->email
+            'id'           => $this->id,
+            'email'        => $this->email,
+            'roles'        => $this->roles,
+            'organization' => $this->organization,
+            'about'        => $this->about
         ];
     }
 
@@ -65,5 +70,10 @@ class UserView implements \JsonSerializable, UserInterface, ViewModelInterface
     public function isEmailEqualTo(string $value)
     {
         return $this->email === $value;
+    }
+
+    public function getId(): ?string
+    {
+        return $this->id;
     }
 }

@@ -44,4 +44,9 @@ class RolesCollection implements \JsonSerializable
     {
         return $this->roles;
     }
+
+    public function mergeWith(RolesCollection $roles)
+    {
+        $this->roles = array_unique(array_merge($this->roles, $roles->roles));
+    }
 }

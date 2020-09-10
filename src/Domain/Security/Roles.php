@@ -9,11 +9,15 @@ use function get_called_class;
 
 final class Roles
 {
-    public const ACTION_CREATE_USER = 'ACTION_USER_CREATE';
+    public const ACTION_CREATE_USER       = 'ACTION_USER_CREATE';
+    public const ACTION_USER_ASSIGN_ROLES = 'ACTION_USER_ASSIGN_ROLES';
+
     public const ACTION_CREATE_BACKUP = 'ACTION_BACKUP_CREATE';
 
     public const ROLE_ADMIN = [
         self::ACTION_CREATE_USER,
+        self::ACTION_USER_ASSIGN_ROLES,
+
         self::ACTION_CREATE_BACKUP
     ];
 

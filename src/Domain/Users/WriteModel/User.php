@@ -69,4 +69,19 @@ class User implements WriteModelInterface
     {
         return $this->email;
     }
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
+
+    public function setRoles(RolesCollection $roles): void
+    {
+        $this->roles = $roles;
+    }
+
+    public function mergeRoles(RolesCollection $roles): void
+    {
+        $this->roles->mergeWith($roles);
+    }
 }

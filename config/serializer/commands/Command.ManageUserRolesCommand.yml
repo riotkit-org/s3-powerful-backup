@@ -1,0 +1,12 @@
+App\Application\Command\ManageUserRolesCommand:
+    exclusion_policy: NONE
+    properties:
+        email:
+            type: string
+
+        roles:
+            type: array
+
+        appendOnly:
+            type: boolean
+

@@ -2,6 +2,9 @@
 
 namespace App\Application\Command;
 
+/**
+ * Creates a new user
+ */
 class CreateUserCommand
 {
     public string $email;
