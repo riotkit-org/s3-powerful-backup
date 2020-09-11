@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Infrastructure\Common\DependencyInjection\BusPass;
+use App\Infrastructure\Security\DependencyInjection\JWTPass;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
@@ -18,6 +19,7 @@ class Kernel extends BaseKernel
         parent::build($container);
 
         $container->addCompilerPass(new BusPass());
+        $container->addCompilerPass(new JWTPass());
     }
 
     protected function configureContainer(ContainerConfigurator $container): void
