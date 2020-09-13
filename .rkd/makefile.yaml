@@ -40,3 +40,9 @@ tasks:
         description: Get into PostgreSQL shell
         steps: |
             psql -h 127.0.0.1 -U postgres postgres
+
+    :test:behat:
+        description: Run Behat tests
+        steps: |
+            set -o allexport; . .env.test; set +o allexport;
+            ./vendor/bin/behat

@@ -82,3 +82,8 @@ src/Infrastructure/Users/Controller # HTTP layer
 src/Domain/Users/View         # models used only for viewing (returned by queries), does not contain validations, just a DTO (already validated by write layer)
 src/Domain/Users/WriteModel   # models used to write to database (used by commands), contains domain-specific logic and validations
 ```
+
+Todo
+----
+
+- Migrate to PHP 8 as soon as it will be released, require at least PHP 8. Migration means also to refactor all constructors to shorten the code

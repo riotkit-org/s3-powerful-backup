@@ -21,8 +21,6 @@ class FrontendController
      */
     public function displayDynamicFrontendApplication(Request $request, ?UserInterface $user): Response
     {
-        dump($user, $request->getUser(), $request->getSession());
-
         return new Response('here will be vue/react/angular application');
     }
 }
