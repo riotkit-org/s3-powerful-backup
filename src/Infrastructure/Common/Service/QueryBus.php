@@ -2,8 +2,26 @@
 
 namespace App\Infrastructure\Common\Service;
 
-use League\Tactician\CommandBus;
+use App\Application\Query\BaseQuery;
+use App\Domain\Common\Service\QueryBusInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
-class QueryBus extends CommandBus
+class QueryBus implements QueryBusInterface
 {
+    protected MessageBusInterface $parent;
+
+    public function __construct(MessageBusInterface $bus)
+    {
+        $this->parent = $bus;
+    }
+
+    public function query(BaseQuery $query)
+    {
+        /**
+         * @var BaseQuery $queryResponse
+         */
+        $queryResponse = $this->parent->dispatch($query)->getMessage();
+
+        return $queryResponse->getResult();
+    }
 }

@@ -2,10 +2,10 @@
 
 namespace App\Infrastructure\Common\Service;
 
-use App\Domain\Common\Service\CommandBusInterface;
+use App\Domain\Common\Service\EventBusInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-class CommandBus implements CommandBusInterface
+class EventBus implements EventBusInterface
 {
     protected MessageBusInterface $parent;
 
@@ -14,8 +14,8 @@ class CommandBus implements CommandBusInterface
         $this->parent = $bus;
     }
 
-    public function handle($command): void
+    public function emit($command): void
     {
-        $this->parent->dispatch($command);
+        $this->parent->dispatch($command)->getMessage();
     }
 }

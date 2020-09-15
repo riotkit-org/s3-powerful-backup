@@ -4,6 +4,7 @@ namespace App\Infrastructure\User\Controller;
 
 use App\Application\Command\ManageUserRolesCommand;
 use App\Application\Query\UserQueryByEmail;
+use App\Domain\Users\View\UserView;
 use App\Infrastructure\Common\DependencyInjection\ApplicationContext;
 use App\Infrastructure\User\Response\UserAlteredResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -33,6 +34,11 @@ class ManageRolesController
         $command->email = $userEmail;
         $ctx->commandBus->handle($command);
 
-        return UserAlteredResponse::asResultFromEdit($ctx->queryBus->handle(new UserQueryByEmail($command->email)));
+        /**
+         * @var UserView $user
+         */
+        $user = $ctx->queryBus->query(new UserQueryByEmail($command->email));
+
+        return UserAlteredResponse::asResultFromEdit($user);
     }
 }

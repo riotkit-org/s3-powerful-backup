@@ -36,4 +36,19 @@ final class Errors
 
     public const ERR_USER_NOT_FOUND_BY_EMAIL     = 40011;
     public const ERR_MSG_USER_NOT_FOUND_BY_EMAIL = 'User not found';
+
+    public const ERR_INPUT_NOT_NUMERIC     = 40012;
+    public const ERR_MSG_INPUT_NOT_NUMERIC = 'Value is not numeric';
+
+    public const ERR_INPUT_NUMBER_TOO_LOW     = 40013;
+    public const ERR_MSG_INPUT_NUMBER_TOO_LOW = 'Number is too small';
+
+    public const ERR_INPUT_NUMBER_TOO_HIGH     = 40014;
+    public const ERR_MSG_INPUT_NUMBER_TOO_HIGH = 'Number is too high';
+
+    public const ERR_IT_SIZE_INVALID_FORMAT     = 40015;
+    public const ERR_MSG_IT_SIZE_INVALID_FORMAT = 'Invalid human-readable I/O size. Details: {{ msg }}';
+
+    public const ERR_MIME_NOT_RECOGNIZED     = 40016;
+    public const ERR_MSG_MIME_NOT_RECOGNIZED = 'Mime type not recognized';
 }

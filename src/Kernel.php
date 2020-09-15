@@ -18,7 +18,6 @@ class Kernel extends BaseKernel
     {
         parent::build($container);
 
-        $container->addCompilerPass(new BusPass());
         $container->addCompilerPass(new JWTPass());
     }
 

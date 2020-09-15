@@ -2,7 +2,7 @@
 
 namespace App\Application\Query;
 
-class UserQueryByEmail
+class UserQueryByEmail extends BaseQuery
 {
     public string $email;
 

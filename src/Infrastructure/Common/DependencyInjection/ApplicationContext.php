@@ -2,22 +2,25 @@
 
 namespace App\Infrastructure\Common\DependencyInjection;
 
-use App\Infrastructure\Common\Service\CommandBus;
-use App\Infrastructure\Common\Service\QueryBus;
+use App\Domain\Common\Service\CommandBusInterface;
+use App\Domain\Common\Service\EventBusInterface;
+use App\Domain\Common\Service\QueryBusInterface;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class ApplicationContext
 {
     public SerializerInterface $serializer;
-    public CommandBus          $commandBus;
-    public QueryBus            $queryBus;
+    public CommandBusInterface $commandBus;
+    public QueryBusInterface   $queryBus;
+    public EventBusInterface   $eventBus;
 
-    public function __construct(SerializerInterface $serializer, CommandBus $cBus, QueryBus $qBus)
+    public function __construct(SerializerInterface $serializer, CommandBusInterface $cBus, QueryBusInterface $qBus, EventBusInterface $eBus)
     {
         $this->serializer = $serializer;
         $this->commandBus = $cBus;
         $this->queryBus   = $qBus;
+        $this->eventBus   = $eBus;
     }
 
     /**

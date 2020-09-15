@@ -2,7 +2,7 @@
 
 namespace App\Application\Query;
 
-class UserQueryByLoginCredentials
+class UserQueryByLoginCredentials extends BaseQuery
 {
     public string $email;
     public string $password;

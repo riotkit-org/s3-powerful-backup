@@ -4,6 +4,7 @@ namespace App\Domain\Users\WriteModel;
 
 use App\Domain\Common\Exception\ValidationConstraintViolatedException;
 use App\Domain\Common\Exception\ValidationException;
+use App\Domain\Common\WriteModel\WriteModelHelper;
 use App\Domain\Common\WriteModel\WriteModelInterface;
 use App\Domain\Users\Collection\RolesCollection;
 use App\Domain\Users\Configuration\PasswordHashingConfiguration;
@@ -38,9 +39,8 @@ class User implements WriteModelInterface
     public static function fromArray(array $input, PasswordHashingConfiguration $hashingConfiguration): User
     {
         $user = new static();
-        $errors = [];
 
-        $setters = [
+        WriteModelHelper::callModelSetters([
             function () use ($user, $input) { $user->email        = Email::fromString($input['email']); },
             function () use ($user, $input, $hashingConfiguration) {
                 $user->password = Password::fromString($input['password'], $user->salt, $hashingConfiguration);
@@ -48,19 +48,7 @@ class User implements WriteModelInterface
             function () use ($user, $input) { $user->organization = Organization::fromString($input['organization']); },
             function () use ($user, $input) { $user->about        = About::fromString($input['about']); },
             function () use ($user, $input) { $user->roles        = RolesCollection::fromArray($input['roles']); },
-        ];
-
-        foreach ($setters as $setter) {
-            try {
-                $setter();
-            } catch (ValidationConstraintViolatedException $exception) {
-                $errors[] = $exception;
-            }
-        }
-
-        if ($errors) {
-            throw ValidationException::fromErrors($errors);
-        }
+        ]);
 
         return $user;
     }

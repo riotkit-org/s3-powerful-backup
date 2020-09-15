@@ -38,6 +38,6 @@ class ManageUserController
 
         // @todo: EventBus -> UserWasCreatedEvent
 
-        return UserAlteredResponse::asResultFromCreation($ctx->queryBus->handle(new UserQueryByEmail($command->email)));
+        return UserAlteredResponse::asResultFromCreation($ctx->queryBus->query(new UserQueryByEmail($command->email)));
     }
 }
