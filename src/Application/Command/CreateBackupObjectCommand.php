@@ -2,8 +2,6 @@
 
 namespace App\Application\Command;
 
-use App\Domain\Backup\WriteModel\Author;
-
 /**
  * Creates a backup
  */
@@ -27,7 +25,10 @@ class CreateBackupObjectCommand
      */
     public string $maxAllVersionsSize;
 
-    public Author $currentUser;
+    /**
+     * @var string
+     */
+    public string $authorEmail;
 
     public function toArray(): array
     {

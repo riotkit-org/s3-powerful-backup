@@ -1,0 +1,55 @@
+App\Domain\Backup\WriteModel\BackupObject:
+    type: entity
+    table: backup_object
+
+    id:
+        id:
+            type: guid
+            generator:
+                strategy: UUID
+
+    embedded:
+        name:
+            class: App\Domain\Backup\ValueObject\Title
+            columnPrefix: false
+
+        description:
+            class: App\Domain\Backup\ValueObject\Description
+            columnPrefix: false
+
+        allowedFileTypes:
+            class: App\Domain\Backup\Collection\AllowedMimeTypes
+            columnPrefix: false
+
+        maxVersions:
+            class: App\Domain\Backup\ValueObject\MaxVersions
+            columnPrefix: false
+
+        maxOneVersionSize:
+            class: App\Domain\Backup\ValueObject\MaxOneVersionSize
+            columnPrefix: false
+
+        maxAllVersionsSize:
+            class: App\Domain\Backup\ValueObject\MaxAllVersionsSize
+            columnPrefix: false
+
+    fields:
+        created:
+            type: datetimetz_immutable
+
+        active:
+            type: boolean
+            column: is_active
+
+    oneToOne:
+        location:
+            targetEntity: App\Domain\Backup\WriteModel\StorageLocation
+            joinColumn:
+                name: location_id
+                referencedColumnName: id
+    manyToOne:
+        createdBy:
+            targetEntity: App\Domain\Backup\WriteModel\Author
+            joinColumn:
+                name: author_id
+                referencedColumnName: id

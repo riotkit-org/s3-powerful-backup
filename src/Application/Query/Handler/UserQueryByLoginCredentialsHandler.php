@@ -2,7 +2,7 @@
 
 namespace App\Application\Query\Handler;
 
-use App\Application\Query\UserQueryByLoginCredentials;
+use App\Application\Query\UserByLoginCredentialsQuery;
 use App\Domain\Users\Repository\UserRepositoryInterface;
 use App\Domain\Users\View\UserView;
 
@@ -15,7 +15,7 @@ class UserQueryByLoginCredentialsHandler
         $this->repository = $repository;
     }
 
-    public function __invoke(UserQueryByLoginCredentials $command): ?UserView
+    public function __invoke(UserByLoginCredentialsQuery $command): ?UserView
     {
         return $this->repository->findUserByCredentials($command->email, $command->password);
     }

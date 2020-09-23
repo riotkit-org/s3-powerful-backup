@@ -1,0 +1,7 @@
+App\Domain\Backup\ValueObject\Description:
+    type: embeddable
+    fields:
+        value:
+            type: string
+            column: description
+            nullable: false

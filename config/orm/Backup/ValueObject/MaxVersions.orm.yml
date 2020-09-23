@@ -1,0 +1,7 @@
+App\Domain\Backup\ValueObject\MaxVersions:
+    type: embeddable
+    fields:
+        value:
+            type: integer
+            column: max_versions
+            nullable: false

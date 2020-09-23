@@ -2,11 +2,6 @@
 
 namespace App\Domain\Backup\ValueObject;
 
-use App\Domain\Common\ValueObject\NumericField;
-
-class MaxVersions extends NumericField
+class MaxVersions extends \App\Domain\Common\ValueObject\Storage\MaxVersions
 {
-    protected static string $field           = 'max_versions';
-    protected static int    $min             = 1;
-    protected static int    $max             = 99999;
 }

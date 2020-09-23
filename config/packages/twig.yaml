@@ -1,2 +1,4 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+    paths:
+        '%env(resolve:STORAGE_POLICIES_DIRECTORY)%/': policies

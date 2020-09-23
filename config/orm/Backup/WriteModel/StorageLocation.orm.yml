@@ -1,0 +1,9 @@
+App\Domain\Backup\WriteModel\StorageLocation:
+    type: entity
+    table: storage_location
+
+    id:
+        id:
+            type: guid
+            generator:
+                strategy: UUID

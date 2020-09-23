@@ -26,14 +26,20 @@ class ApplicationContext
     /**
      * Executes a command basing on JSON input from Request
      *
-     * @param Request $request
-     * @param string $commandClassName
+     * @param Request       $request
+     * @param string        $commandClassName
+     * @param callable|null $beforeHandle
      *
      * @return mixed
      */
-    public function handleCommand(Request $request, string $commandClassName)
+    public function handleCommand(Request $request, string $commandClassName, ?callable $beforeHandle = null)
     {
         $command = $this->serializer->deserialize($request->getContent(), $commandClassName, 'json');
+
+        if ($beforeHandle) {
+            $beforeHandle($command);
+        }
+
         $this->commandBus->handle($command);
 
         return $command;

@@ -2,8 +2,8 @@
 
 namespace App\Domain\Users\WriteModel;
 
-use App\Domain\Common\Exception\ValidationConstraintViolatedException;
-use App\Domain\Common\Exception\ValidationException;
+use App\Domain\Common\Exception\DomainConstraintViolatedException;
+use App\Domain\Common\Exception\DomainAssertionFailure;
 use App\Domain\Common\WriteModel\WriteModelHelper;
 use App\Domain\Common\WriteModel\WriteModelInterface;
 use App\Domain\Users\Collection\RolesCollection;
@@ -34,13 +34,13 @@ class User implements WriteModelInterface
      *
      * @return User
      *
-     * @throws ValidationException
+     * @throws DomainAssertionFailure
      */
     public static function fromArray(array $input, PasswordHashingConfiguration $hashingConfiguration): User
     {
         $user = new static();
 
-        WriteModelHelper::callModelSetters([
+        WriteModelHelper::withValidationErrorAggregation([
             function () use ($user, $input) { $user->email        = Email::fromString($input['email']); },
             function () use ($user, $input, $hashingConfiguration) {
                 $user->password = Password::fromString($input['password'], $user->salt, $hashingConfiguration);

@@ -2,7 +2,7 @@
 
 namespace App\Domain\Users\Exception;
 
-class UserAlreadyExistsException extends UserCreationException
+class UserAlreadyExistsException extends UserCreationExceptionDomain
 {
 
 }

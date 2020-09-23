@@ -2,7 +2,7 @@
 
 namespace App\Domain\Common\Exception;
 
-class ValidationConstraintViolatedException extends ApplicationException implements \JsonSerializable
+class DomainConstraintViolatedException extends ApplicationException implements \JsonSerializable
 {
     private string $field;
 

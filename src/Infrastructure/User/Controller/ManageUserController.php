@@ -3,8 +3,8 @@
 namespace App\Infrastructure\User\Controller;
 
 use App\Application\Command\CreateUserCommand;
-use App\Application\Query\UserQueryByEmail;
-use App\Domain\Users\Exception\UserCreationException;
+use App\Application\Query\UserByEmailQuery;
+use App\Domain\Users\Exception\UserCreationExceptionDomain;
 use App\Infrastructure\Common\DependencyInjection\ApplicationContext;
 use App\Infrastructure\User\Response\UserAlteredResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -23,7 +23,7 @@ class ManageUserController
      * @param ApplicationContext $ctx
      *
      * @return Response
-     * @throws UserCreationException
+     * @throws UserCreationExceptionDomain
      */
     public function createAction(Request $request, ApplicationContext $ctx): Response
     {
@@ -31,13 +31,13 @@ class ManageUserController
         // @todo: FOS Rest
 
         /**
-         * @throws UserCreationException
+         * @throws UserCreationExceptionDomain
          * @var CreateUserCommand $command
          */
         $command = $ctx->handleCommand($request, CreateUserCommand::class);
 
         // @todo: EventBus -> UserWasCreatedEvent
 
-        return UserAlteredResponse::asResultFromCreation($ctx->queryBus->query(new UserQueryByEmail($command->email)));
+        return UserAlteredResponse::asResultFromCreation($ctx->queryBus->query(new UserByEmailQuery($command->email)));
     }
 }

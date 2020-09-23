@@ -1,7 +1,14 @@
 parameters:
     env(PASSWD_ALGORITHM): 'sha256'
     env(PASSWD_ITERATIONS): '90000'
-    env(JWT_LIFETIME): '+1 hour'
+    env(JWT_LIFETIME): ''
+    env(STORAGE_ENDPOINT): ''
+    env(STORAGE_API_VERSION): ''
+    env(STORAGE_REGION): ''
+    env(STORAGE_KEY): ''
+    env(STORAGE_SECRET): ''
+    env(STORAGE_TOTAL_DISK_SPACE_LIMIT): ''
+    env(STORAGE_POLICIES_DIRECTORY): ''
 
 services:
     # default configuration for services in *this* file
@@ -19,7 +26,11 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
             - '../src/Domain/{Storage,Users,Security,Backup,Common}/WriteModel/'
+            - '../src/Domain/{Storage,Users,Security,Backup,Common}/View/'
+            - '../src/Domain/{Storage,Users,Security,Backup,Common}/ValueObject/'
+            - '../src/Domain/{Storage,Users,Security,Backup,Common}/Exception/'
             - '../src/Domain/{Storage,Users,Security,Backup,Common}/Collection'
+            - '../src/Application/{Command,Event,Query}/'
 
     App\Infrastructure\Common\Event\Subscriber\DomainValidationErrorSubscriber:
         tags:
@@ -74,6 +85,14 @@ services:
             $bus: '@event.bus'
 
     #
+    # Storage-domain specific
+    #
+    App\Domain\Storage\Factory\PolicyFactory:
+        autowire: true
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+
+    #
     # Configurations (from environment variables)
     #
     App\Domain\Users\Configuration\PasswordHashingConfiguration:
@@ -88,3 +107,13 @@ services:
     App\Domain\Security\Configuration\JWTConfiguration:
         arguments:
             $lifetime: '%env(JWT_LIFETIME)%'
+
+    App\Domain\Security\Configuration\StorageManagementConfiguration:
+        arguments:
+            $endpoint: '%env(STORAGE_ENDPOINT)%'
+            $version: '%env(STORAGE_API_VERSION)%'
+            $region: '%env(STORAGE_REGION)%'
+            $key: '%env(STORAGE_KEY)%'
+            $secret: '%env(STORAGE_SECRET)%'
+            $totalDiskSpaceLimit: '%env(STORAGE_TOTAL_DISK_SPACE_LIMIT)%'
+            $policiesDirectory: '%env(STORAGE_POLICIES_DIRECTORY)%'

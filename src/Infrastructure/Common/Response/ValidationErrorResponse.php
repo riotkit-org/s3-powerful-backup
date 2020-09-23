@@ -2,12 +2,12 @@
 
 namespace App\Infrastructure\Common\Response;
 
-use App\Domain\Common\Exception\ValidationException;
+use App\Domain\Common\Exception\DomainAssertionFailure;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ValidationErrorResponse extends JsonResponse
 {
-    public static function createFromException(ValidationException $exc): ValidationErrorResponse
+    public static function createFromException(DomainAssertionFailure $exc): ValidationErrorResponse
     {
         return new static([
             'error'  => 'JSON payload validation error',

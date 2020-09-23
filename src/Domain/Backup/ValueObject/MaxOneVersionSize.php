@@ -2,9 +2,6 @@
 
 namespace App\Domain\Backup\ValueObject;
 
-use App\Domain\Common\ValueObject\ITSize;
-
-class MaxOneVersionSize extends ITSize
+class MaxOneVersionSize extends \App\Domain\Common\ValueObject\Storage\MaxOneVersionSize
 {
-    protected static string $field = 'maxOneVersionSize';
 }

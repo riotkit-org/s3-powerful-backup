@@ -2,7 +2,7 @@
 
 namespace App\Domain\Users\ValueObject;
 
-use App\Domain\Common\Exception\ValidationConstraintViolatedException;
+use App\Domain\Common\Exception\DomainConstraintViolatedException;
 use App\Domain\Security\Errors;
 
 class Email
@@ -13,12 +13,12 @@ class Email
      * @param string $email
      * @return Email
      *
-     * @throws ValidationConstraintViolatedException
+     * @throws DomainConstraintViolatedException
      */
     public static function fromString(string $email): Email
     {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw ValidationConstraintViolatedException::fromString(
+            throw DomainConstraintViolatedException::fromString(
                 'email',
                 Errors::ERR_MSG_USER_MAIL_FORMAT_INVALID,
                 Errors::ERR_USER_MAIL_FORMAT_INVALID

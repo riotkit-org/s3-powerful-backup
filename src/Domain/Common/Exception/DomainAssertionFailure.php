@@ -2,10 +2,10 @@
 
 namespace App\Domain\Common\Exception;
 
-class ValidationException extends ApplicationException
+class DomainAssertionFailure extends ApplicationException
 {
     /**
-     * @var ValidationConstraintViolatedException[]
+     * @var DomainConstraintViolatedException[]
      */
     protected array $constraintsViolated = [];
 
@@ -14,10 +14,10 @@ class ValidationException extends ApplicationException
      * @param string $message
      * @param int $code
      *
-     * @return ValidationException|static
+     * @return DomainAssertionFailure|static
      */
-    public static function fromErrors(array $violations, string $message = 'Data model validation failed',
-                                      int $code = 0): ValidationException
+    public static function fromErrors(array $violations, string $message = 'Domain validation not passed',
+                                      int $code = 0): DomainAssertionFailure
     {
         $new = new static($message, $code);
         $new->constraintsViolated = $violations;
@@ -26,7 +26,7 @@ class ValidationException extends ApplicationException
     }
 
     /**
-     * @return ValidationConstraintViolatedException[]
+     * @return DomainConstraintViolatedException[]
      */
     public function getConstraintsViolated(): array
     {

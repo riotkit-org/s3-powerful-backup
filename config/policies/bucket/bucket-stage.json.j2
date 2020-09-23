@@ -1,0 +1,34 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PublicRead",
+            "Effect": "Deny",
+            "Action": [
+                "s3:GetObject", "s3:PutObject", "s3:GetBucketPolicy", "s3:ListBucket",
+                "s3:ListBucketVersions", "s3:DeleteObjectVersion", "s3:DeleteObjectVersionTagging",
+                "s3:GetObjectVersion", "s3:GetObjectVersionTagging", "s3:PutBucketPolicy", "s3:PutBucketNotification",
+                "s3:PutObjectLegalHold", "s3:PutBucketTagging", "s3:PutObjectTagging", "s3:PutEncryptionConfiguration",
+                "s3:PutBucketVersioning", "s3:PutReplicationConfiguration", "s3:ReplicateObject", "s3:ReplicateDelete",
+                "s3:ListenNotification", "s3:DeleteObject", "s3:ForceDeleteBucket", "s3:DeleteBucketPolicy", "s3:CreateBucket"
+            ],
+            "Principal": "*",
+            "Resource": [
+                "arn:aws:s3:::{{ bucket_name }}/*",
+                "arn:aws:s3:::{{ bucket_name }}"
+            ]
+        },
+        {
+            "Sid": "PublicRead",
+            "Effect": "Deny",
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Principal": "*",
+            "Resource": [
+                "arn:aws:s3:::{{ bucket_name }}/*",
+                "arn:aws:s3:::{{ bucket_name }}"
+            ]
+        }
+    ]
+}

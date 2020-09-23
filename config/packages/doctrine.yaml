@@ -24,6 +24,13 @@ doctrine:
                 prefix: 'App\Domain\Backup\ValueObject'
                 alias: BackupVO
 
+            App\Domain\Backup\Collection:
+                is_bundle: false
+                type: yml
+                dir: '%kernel.project_dir%/config/orm/Backup/Collection'
+                prefix: 'App\Domain\Backup\Collection'
+                alias: BackupCollections
+
             App\Domain\Users\WriteModel:
                 is_bundle: false
                 type: yml
@@ -50,4 +57,4 @@ doctrine:
                 type: yml
                 dir: '%kernel.project_dir%/config/orm/Users/Collection'
                 prefix: 'App\Domain\Users\Collection'
-                alias: UsersCOLLECTION
+                alias: UsersCollections

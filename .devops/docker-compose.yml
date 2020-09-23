@@ -11,3 +11,12 @@ services:
             - ./postgres/entrypoint.d:/docker-entrypoint-initdb.d/
         ports:
             - 5432:5432
+
+    storage:
+        image: minio/minio:latest
+        command: server /data
+        environment:
+            MINIO_ACCESS_KEY: "RIOTKIT161ACABEXAMPL"
+            MINIO_SECRET_KEY: "wJalrFUckFEMI/THEdENG/STaTeandCAPITALKEY"
+        ports:
+            - 9000:9000

@@ -4,6 +4,8 @@ namespace App\Domain\Users\View;
 
 use App\Domain\Common\View\IdAwareViewInterface;
 use App\Domain\Common\View\ViewModelInterface;
+use App\Domain\Security\Exception\InvalidRoleError;
+use App\Domain\Security\Roles;
 use App\Domain\Users\Configuration\PasswordHashingConfiguration;
 use App\Domain\Users\ValueObject\Password;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -34,12 +36,17 @@ class UserView implements \JsonSerializable, UserInterface, ViewModelInterface, 
         ];
     }
 
+    /**
+     * @return array
+     *
+     * @throws InvalidRoleError
+     */
     public function getRoles(): array
     {
         $roles = $this->roles;
         $roles[] = 'ROLE_USER';
 
-        return array_unique($roles);
+        return Roles::expandRoles(array_unique($roles));
     }
 
     public function getPassword(): string
@@ -75,5 +82,10 @@ class UserView implements \JsonSerializable, UserInterface, ViewModelInterface, 
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Domain\Common\ValueObject;
 
-use App\Domain\Common\Exception\ValidationConstraintViolatedException;
+use App\Domain\Common\Exception\DomainConstraintViolatedException;
 use App\Domain\Security\Errors;
 
 class TextField
@@ -16,7 +16,7 @@ class TextField
      *
      * @return static
      *
-     * @throws ValidationConstraintViolatedException
+     * @throws DomainConstraintViolatedException
      */
     public static function fromString(string $value)
     {
@@ -32,12 +32,12 @@ class TextField
     /**
      * @param string $value
      *
-     * @throws ValidationConstraintViolatedException
+     * @throws DomainConstraintViolatedException
      */
     private static function validateMaxAllowedChars(string $value)
     {
         if (static::$maxAllowedChars && strlen($value) > static::$maxAllowedChars) {
-            throw ValidationConstraintViolatedException::fromString(
+            throw DomainConstraintViolatedException::fromString(
                 static::$field,
                 Errors::ERR_MSG_TEXT_FIELD_TOO_LONG,
                 Errors::ERR_TEXT_FIELD_TOO_LONG
@@ -48,7 +48,7 @@ class TextField
     private static function validateUtf(string $value)
     {
         if (!mb_check_encoding($value, 'UTF-8')) {
-            throw ValidationConstraintViolatedException::fromString(
+            throw DomainConstraintViolatedException::fromString(
                 static::$field,
                 Errors::ERR_MSG_NON_UTF_CHARACTERS,
                 Errors::ERR_NON_UTF_CHARACTERS

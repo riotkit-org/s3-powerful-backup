@@ -34,10 +34,6 @@ class JWTLifetimeSubscriber implements EventSubscriberInterface
     {
         $expiration = new \DateTime($this->jwtConfig->getDefaultLifetime());
 
-        if ($this->appInfo->isDevelopmentEnvironment()) {
-            $expiration = new \DateTime('+7 days');
-        }
-
         $payload = $event->getData();
         $payload['exp'] = $expiration->getTimestamp();
 

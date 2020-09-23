@@ -3,11 +3,11 @@
 namespace App\Application\Command\Handler;
 
 use App\Application\Command\ManageUserRolesCommand;
-use App\Domain\Common\Exception\ValidationConstraintViolatedException;
-use App\Domain\Common\Exception\ValidationException;
+use App\Domain\Common\Exception\DomainConstraintViolatedException;
+use App\Domain\Common\Exception\DomainAssertionFailure;
 use App\Domain\Common\Service\WriteModelPersister;
 use App\Domain\Users\Collection\RolesCollection;
-use App\Domain\Users\Exception\UserNotFoundException;
+use App\Domain\Users\Exception\UserNotFoundExceptionDomain;
 use App\Domain\Users\Repository\UserRepositoryInterface;
 use App\Domain\Users\WriteModel\User;
 
@@ -31,7 +31,7 @@ class ManageUserRolesHandler
         $userView = $this->repository->findUserByEmailAddress($command->email);
 
         if (!$userView) {
-            throw UserNotFoundException::causeUserDoesNotExist();
+            throw UserNotFoundExceptionDomain::causeUserDoesNotExist();
         }
 
         /**
@@ -47,8 +47,8 @@ class ManageUserRolesHandler
                 $user->setRoles(RolesCollection::fromArray($command->roles));
             }
 
-        } catch (ValidationConstraintViolatedException $exception) {
-            throw ValidationException::fromErrors([$exception]);
+        } catch (DomainConstraintViolatedException $exception) {
+            throw DomainAssertionFailure::fromErrors([$exception]);
         }
 
         $this->persister->persist($user);

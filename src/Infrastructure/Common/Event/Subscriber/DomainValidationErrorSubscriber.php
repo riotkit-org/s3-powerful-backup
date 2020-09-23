@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Common\Event\Subscriber;
 
-use App\Domain\Common\Exception\ValidationException;
+use App\Domain\Common\Exception\DomainAssertionFailure;
 use App\Infrastructure\Common\Response\ValidationErrorResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
@@ -17,11 +17,11 @@ class DomainValidationErrorSubscriber
     {
         $exc = $event->getThrowable();
 
-        if ($exc instanceof HandlerFailedException) {
+        while ($exc instanceof HandlerFailedException && $exc->getPrevious()) {
             $exc = $exc->getPrevious();
         }
 
-        if ($exc instanceof ValidationException) {
+        if ($exc instanceof DomainAssertionFailure) {
             $event->setResponse(ValidationErrorResponse::createFromException($exc));
         }
     }

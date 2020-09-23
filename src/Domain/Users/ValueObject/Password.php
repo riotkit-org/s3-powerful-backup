@@ -2,7 +2,7 @@
 
 namespace App\Domain\Users\ValueObject;
 
-use App\Domain\Common\Exception\ValidationConstraintViolatedException;
+use App\Domain\Common\Exception\DomainConstraintViolatedException;
 use App\Domain\Security\Errors;
 use App\Domain\Users\Configuration\PasswordHashingConfiguration;
 
@@ -17,12 +17,12 @@ class Password
      *
      * @return Password
      *
-     * @throws ValidationConstraintViolatedException
+     * @throws DomainConstraintViolatedException
      */
     public static function fromString(string $value, string $salt, PasswordHashingConfiguration $configuration): Password
     {
         if (strlen($value) < 8) {
-            throw ValidationConstraintViolatedException::fromString(
+            throw DomainConstraintViolatedException::fromString(
                 'password',
                 Errors::ERR_MSG_USER_PASSWORD_TOO_SHORT,
                 Errors::ERR_USER_PASSWORD_TOO_SHORT
@@ -30,7 +30,7 @@ class Password
         }
 
         if (strlen($value) > 1024) {
-            throw ValidationConstraintViolatedException::fromString(
+            throw DomainConstraintViolatedException::fromString(
                 'password',
                 Errors::ERR_MSG_USER_PASSWORD_TOO_LONG,
                 Errors::ERR_USER_PASSWORD_TOO_LONG
@@ -38,7 +38,7 @@ class Password
         }
 
         if (!preg_match('/[!@#$%^&*()\-_=+{};:,<.>]/', $value)) {
-            throw ValidationConstraintViolatedException::fromString(
+            throw DomainConstraintViolatedException::fromString(
                 'password',
                 Errors::ERR_MSG_ERR_USER_PASSWORD_TOO_SIMPLE,
                 Errors::ERR_USER_PASSWORD_TOO_SIMPLE
@@ -46,7 +46,7 @@ class Password
         }
 
         if (trim($value) !== $value) {
-            throw ValidationConstraintViolatedException::fromString(
+            throw DomainConstraintViolatedException::fromString(
                 'password',
                 Errors::ERR_MSG_USER_PASSWORD_WHITESPACES,
                 Errors::ERR_USER_PASSWORD_WHITESPACES

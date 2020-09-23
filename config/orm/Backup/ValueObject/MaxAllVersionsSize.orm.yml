@@ -1,0 +1,7 @@
+App\Domain\Backup\ValueObject\MaxAllVersionsSize:
+    type: embeddable
+    fields:
+        value:
+            type: float
+            column: max_all_versions_size
+            nullable: false

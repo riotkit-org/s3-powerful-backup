@@ -1,0 +1,7 @@
+App\Domain\Backup\Collection\AllowedMimeTypes:
+    type: embeddable
+    fields:
+        value:
+            type: json_array
+            column: allowed_file_types
+            nullable: false

@@ -2,8 +2,8 @@
 
 namespace App\Domain\Common\WriteModel;
 
-use App\Domain\Common\Exception\ValidationConstraintViolatedException;
-use App\Domain\Common\Exception\ValidationException;
+use App\Domain\Common\Exception\DomainConstraintViolatedException;
+use App\Domain\Common\Exception\DomainAssertionFailure;
 
 class WriteModelHelper
 {
@@ -12,22 +12,29 @@ class WriteModelHelper
      *
      * @param callable[] $setters
      *
-     * @throws ValidationException
+     * @throws DomainAssertionFailure
      */
-    public static function callModelSetters(array $setters)
+    public static function withValidationErrorAggregation(array $setters)
     {
         $errors = [];
 
         foreach ($setters as $setter) {
             try {
                 $setter();
-            } catch (ValidationConstraintViolatedException $exception) {
+            } catch (DomainConstraintViolatedException $exception) {
                 $errors[] = $exception;
+
+            } catch (\Error $exception) {
+
+                // when one field depends on other field, but that other field raised exception already and was not initialized
+                if (strpos($exception->getMessage(), 'must not be accessed before initialization') === false) {
+                    throw $exception;
+                }
             }
         }
 
         if ($errors) {
-            throw ValidationException::fromErrors($errors);
+            throw DomainAssertionFailure::fromErrors($errors);
         }
     }
 }

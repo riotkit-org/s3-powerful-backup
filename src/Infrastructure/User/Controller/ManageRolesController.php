@@ -3,7 +3,7 @@
 namespace App\Infrastructure\User\Controller;
 
 use App\Application\Command\ManageUserRolesCommand;
-use App\Application\Query\UserQueryByEmail;
+use App\Application\Query\UserByEmailQuery;
 use App\Domain\Users\View\UserView;
 use App\Infrastructure\Common\DependencyInjection\ApplicationContext;
 use App\Infrastructure\User\Response\UserAlteredResponse;
@@ -37,7 +37,7 @@ class ManageRolesController
         /**
          * @var UserView $user
          */
-        $user = $ctx->queryBus->query(new UserQueryByEmail($command->email));
+        $user = $ctx->queryBus->query(new UserByEmailQuery($command->email));
 
         return UserAlteredResponse::asResultFromEdit($user);
     }

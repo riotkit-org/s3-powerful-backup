@@ -2,7 +2,15 @@
 
 namespace App\Domain\Backup\WriteModel;
 
-class Author
-{
+use App\Domain\Common\WriteModel\WriteModelInterface;
 
+class Author implements WriteModelInterface
+{
+    private string $id;
+    private string $email;
+
+    public function getId(): ?string
+    {
+        return $this->id;
+    }
 }

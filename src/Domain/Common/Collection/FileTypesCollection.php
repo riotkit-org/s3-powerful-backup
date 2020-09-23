@@ -2,7 +2,7 @@
 
 namespace App\Domain\Common\Collection;
 
-use App\Domain\Common\Exception\ValidationConstraintViolatedException;
+use App\Domain\Common\Exception\DomainConstraintViolatedException;
 use App\Domain\Common\Provider\MimeTypeListProvider;
 use App\Domain\Security\Errors;
 
@@ -11,7 +11,7 @@ abstract class FileTypesCollection
     /**
      * @var string[]
      */
-    private array $value = [];
+    protected array $value = [];
     protected static string $field = '';
 
     /**
@@ -19,7 +19,7 @@ abstract class FileTypesCollection
      *
      * @return static
      *
-     * @throws ValidationConstraintViolatedException
+     * @throws DomainConstraintViolatedException
      */
     public static function fromArray(array $types)
     {
@@ -28,7 +28,7 @@ abstract class FileTypesCollection
 
         foreach ($types as $type) {
             if (!in_array($type, $allowedList, true)) {
-                throw ValidationConstraintViolatedException::fromString(
+                throw DomainConstraintViolatedException::fromString(
                     static::$field,
                     Errors::ERR_MSG_MIME_NOT_RECOGNIZED,
                     Errors::ERR_MIME_NOT_RECOGNIZED
@@ -39,5 +39,13 @@ abstract class FileTypesCollection
         }
 
         return $new;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getValue(): array
+    {
+        return $this->value;
     }
 }

@@ -51,4 +51,16 @@ final class Errors
 
     public const ERR_MIME_NOT_RECOGNIZED     = 40016;
     public const ERR_MSG_MIME_NOT_RECOGNIZED = 'Mime type not recognized';
+
+    public const ERR_SECURITY_INVALID_ROLE     = 40017;
+    public const ERR_MSG_SECURITY_INVALID_ROLE = 'Invalid role "{{ role }}"';
+
+    public const ERR_MAX_COLLECTION_SIZE_NOT_ENOUGH_ESTIMATED     = 40018;
+    public const ERR_MSG_MAX_COLLECTION_SIZE_NOT_ENOUGH_ESTIMATED = 'Maximum collection size must include estimation of all versions together';
+
+    public const ERR_IT_SIZE_CANNOT_BE_NEGATIVE     = 40019;
+    public const ERR_MSG_IT_SIZE_CANNOT_BE_NEGATIVE = 'I/O size cannot be negative';
+
+    public const ERR_STORAGE_NO_DISK_SPACE     = 40020;
+    public const ERR_MSG_STORAGE_NO_DISK_SPACE = 'No enough space on the storage to allocate, please contact the system administrator';
 }

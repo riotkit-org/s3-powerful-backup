@@ -2,7 +2,7 @@
 
 namespace App\Application\Query\Handler;
 
-use App\Application\Query\UserQueryByEmail;
+use App\Application\Query\UserByEmailQuery;
 use App\Domain\Users\Repository\UserRepositoryInterface;
 use App\Domain\Users\View\UserView;
 
@@ -15,7 +15,7 @@ class UserQueryByEmailHandler
         $this->repository = $repository;
     }
 
-    public function __invoke(UserQueryByEmail $query)
+    public function __invoke(UserByEmailQuery $query)
     {
         $view = $this->repository->findUserByEmailAddress($query->email);
 
